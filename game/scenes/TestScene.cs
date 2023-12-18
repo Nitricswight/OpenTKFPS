@@ -44,16 +44,9 @@ namespace OpenTKFPS.game.scenes
             sMat = new StandardMaterial(Color4.Blue, null);
 
             root = new Actor();
-            Actor3D a =MeshLoader.LoadAssimpFile("assets/models/stanford_dragon_pbr.glb");
-            a.local_rotation = Vector3.Zero;
-            a.local_scale = Vector3.One * 0.01f;
-            root.AddChild(a);
+            MeshLoader.MyGLTFParse("assets/models/torus.gltf");
 
-            Actor3D b = MeshLoader.LoadAssimpFile("assets/models/cube (1).gltf");
-            b.local_rotation = Vector3.Zero;
-            b.local_scale = Vector3.One * 0.01f;
 
-            root.AddChild(b);
             FlyCam cam = new FlyCam(new Vector3(0,0,-3f), Vector3.One, Vector3.Zero);
             root.AddChild(cam);
             cam.setCurrent();

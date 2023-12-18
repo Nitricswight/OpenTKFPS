@@ -41,10 +41,9 @@ namespace OpenTKFPS.engine.debugging
                 if(ImGui.Button("select##" + actor.id)){
                     SelectForInspection(actor);
                 }
-                ImGui.TreePop();
             }
             else{
-                bool tn = ImGui.TreeNode(actor.name);
+                bool tn = ImGui.TreeNode(actor.name + "##" + actor.id);
                 ImGui.SameLine();
                 if(ImGui.Button("select##" + actor.id)){
                     SelectForInspection(actor);

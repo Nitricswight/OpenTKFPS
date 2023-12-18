@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using Assimp;
+using Newtonsoft.Json.Linq;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKFPS.engine.structure.actors;
@@ -69,6 +69,10 @@ namespace OpenTKFPS.engine.graphics
             AssimpContext importer = new AssimpContext();
             Scene file = importer.ImportFile(filePath);
 
+            if(importer.IsImportFormatSupported("." + filePath.Split(".")[1])){
+                Debug.WriteLine("format supported");
+            }
+
             List<Mesh> meshes = new List<Mesh>();
             List<Material> materials = new List<Material>();
             materials.Add(StandardMaterial.Default());
@@ -83,12 +87,17 @@ namespace OpenTKFPS.engine.graphics
                     vertices[(3 * i) + 1] = mesh.Vertices[i].Y;
                     vertices[(3 * i) + 2] = mesh.Vertices[i].Z;
 
-                    uvs[(2 * i) + 0] = mesh.TextureCoordinateChannels[0][i].X;
-                    uvs[(2 * i) + 1] = mesh.TextureCoordinateChannels[0][i].Y;
-
-                    normals[(3 * i) + 0] = mesh.Normals[i].X;
-                    normals[(3 * i) + 1] = mesh.Normals[i].Y;
-                    normals[(3 * i) + 2] = mesh.Normals[i].Z;
+                    if(mesh.TextureCoordinateChannelCount > 0){
+                        uvs[(2 * i) + 0] = mesh.TextureCoordinateChannels[0][i].X;
+                        uvs[(2 * i) + 1] = mesh.TextureCoordinateChannels[0][i].Y;
+                    }
+                    
+                    if(mesh.HasNormals){
+                        normals[(3 * i) + 0] = mesh.Normals[i].X;
+                        normals[(3 * i) + 1] = mesh.Normals[i].Y;
+                        normals[(3 * i) + 2] = mesh.Normals[i].Z;
+                    }
+                    
                 }
 
                 meshes.Add(LoadMesh(vertices, uvs, normals, indices));
@@ -147,6 +156,28 @@ namespace OpenTKFPS.engine.graphics
             
 
             return result;
+        }
+
+        public static void MyGLTFParse(string filePath){
+
+            
+
+            JObject file = JObject.Parse(new StreamReader(filePath).ReadToEnd());
+
+            
+
+            Debug.WriteLine("meshes: " + file.GetValue("meshes").Count().ToString());
+            Debug.WriteLine("nodes: " + file.GetValue("nodes").Count().ToString());
+            Debug.WriteLine("materials: " + file.GetValue("materials").Count().ToString());
+            Debug.WriteLine("buffers: " + file.GetValue("buffers").Count().ToString());
+            Debug.WriteLine("bufferViews: " + file.GetValue("bufferViews").Count().ToString());
+            Debug.WriteLine("accessors: " + file.GetValue("accessors").Count().ToString());
+            // Debug.WriteLine("nodes: " + file.RootElement.GetProperty("nodes").GetArrayLength());
+            // Debug.WriteLine("buffers: " + file.RootElement.GetProperty("buffers").GetArrayLength());
+            // Debug.WriteLine("buffer views: " + file.RootElement.GetProperty("bufferViews").GetArrayLength());
+            // Debug.WriteLine("accessors: " + file.RootElement.GetProperty("accessors").GetArrayLength());
+            // Debug.WriteLine("materials: " + file.RootElement.GetProperty("materials").GetArrayLength());
+            
         }
     }
 

@@ -22,7 +22,11 @@
         "bin/Debug/net7.0/OpenTKFPS.pdb": true,
         "bin/Debug/net7.0/OpenTKFPS.runtimeconfig.json": true,
         "obj": true,
-        "scriptcs_bin": true
+        "scriptcs_bin": true,
+        "bin/Debug/net7.0/AssimpNet.dll": true,
+        "bin/Debug/net7.0/imgui.ini": true,
+        "bin/Debug/net7.0/ImGui.NET.dll": true,
+        "bin/Debug/net7.0/StbImageSharp.dll": true
     },
     "hide-files.files": [
         "bin/Debug/net7.0/runtimes",
@@ -41,6 +45,10 @@
         "bin/Debug/net7.0/OpenTKFPS.pdb",
         "bin/Debug/net7.0/OpenTKFPS.runtimeconfig.json",
         "obj",
-        "scriptcs_bin"
+        "scriptcs_bin",
+        "bin/Debug/net7.0/AssimpNet.dll",
+        "bin/Debug/net7.0/imgui.ini",
+        "bin/Debug/net7.0/ImGui.NET.dll",
+        "bin/Debug/net7.0/StbImageSharp.dll"
     ]
 }
