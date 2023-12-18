@@ -52,7 +52,7 @@ namespace OpenTKFPS.engine.graphics
         }
 
         public static StandardMaterial Default(){
-            return new StandardMaterial(Color4.Pink, null);
+            return new StandardMaterial(Color4.White, "assets/textures/noTex.png");
         }
     }
 }
