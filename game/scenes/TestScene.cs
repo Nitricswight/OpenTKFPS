@@ -44,7 +44,7 @@ namespace OpenTKFPS.game.scenes
             sMat = new StandardMaterial(Color4.Blue, null);
 
             root = new Actor();
-            MeshLoader.MyGLTFParse("assets/models/torus.gltf");
+            root.AddChild(GLTFSceneLoader.LoadGLTFScene("assets/models/torus.gltf"));
 
 
             FlyCam cam = new FlyCam(new Vector3(0,0,-3f), Vector3.One, Vector3.Zero);

@@ -85,3 +85,5 @@ C:\Users\matth\OneDrive\Documents\vscode\OpenTKFPS\obj\Debug\net7.0\OpenTKFPS.pd
 C:\Users\matth\OneDrive\Documents\vscode\OpenTKFPS\obj\Debug\net7.0\OpenTKFPS.genruntimeconfig.cache
 C:\Users\matth\OneDrive\Documents\vscode\OpenTKFPS\obj\Debug\net7.0\ref\OpenTKFPS.dll
 C:\Users\matth\OneDrive\Documents\vscode\OpenTKFPS\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\matth\Documents\vscode\OpenTKFPS\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\matth\Documents\vscode\OpenTKFPS\bin\Debug\net7.0\glTFLoader.dll

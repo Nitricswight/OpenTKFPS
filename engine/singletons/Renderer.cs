@@ -38,7 +38,7 @@ namespace OpenTKFPS.engine.singletons
                 GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.drawCount);
             }
             else{
-                GL.DrawElements(PrimitiveType.Triangles, mesh.drawCount, DrawElementsType.UnsignedInt, 0);
+                GL.DrawElements(PrimitiveType.Triangles, mesh.drawCount, DrawElementsType.UnsignedInt, mesh.elementOffset);
             }
         }
 

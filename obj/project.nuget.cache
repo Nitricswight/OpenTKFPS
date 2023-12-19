@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "ARovY49KUa5mUqL0VI8DjHQ8VnM4YN3wYRBh3OU1qlyqWYQ5E4fXGS5TMxw3Su79/UaUMT6nY33hsy7873Oeqg==",
+  "dgSpecHash": "skQbKApDzXuNGTrszTIm0/TmzgHsIqd5XEPmKIAXt4gF0Nv2h375aB6E47Nyu3tLTXmpZ03bw3oo5+dsteggMA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
+  "projectFilePath": "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\matth\\.nuget\\packages\\assimpnet\\4.1.0\\assimpnet.4.1.0.nupkg.sha512",
+    "C:\\Users\\matth\\.nuget\\packages\\gltf2loader\\1.0.0\\gltf2loader.1.0.0.nupkg.sha512",
     "C:\\Users\\matth\\.nuget\\packages\\imgui.net\\1.90.0.1\\imgui.net.1.90.0.1.nupkg.sha512",
     "C:\\Users\\matth\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\matth\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",

@@ -39,6 +39,19 @@
           }
         }
       },
+      "glTF2Loader/1.0.0": {
+        "type": "package",
+        "dependencies": {
+          "NETStandard.Library": "1.6.1",
+          "Newtonsoft.Json": "10.0.3"
+        },
+        "compile": {
+          "lib/netstandard1.3/glTFLoader.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/glTFLoader.dll": {}
+        }
+      },
       "ImGui.NET/1.90.0.1": {
         "type": "package",
         "dependencies": {
@@ -1615,6 +1628,19 @@
         "runtimes/osx-x64/native/libassimp.dylib",
         "runtimes/win-x64/native/assimp.dll",
         "runtimes/win-x86/native/assimp.dll"
+      ]
+    },
+    "glTF2Loader/1.0.0": {
+      "sha512": "nG9kfhDAajEcpTwa+pnYm0S+UKWXbw26eCaYqzGfZqofSNq/czoT3TexW3dCimXIfyMyCxCkYNvUJanV+DTC+w==",
+      "type": "package",
+      "path": "gltf2loader/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "gltf2loader.1.0.0.nupkg.sha512",
+        "gltf2loader.nuspec",
+        "lib/net452/glTFLoader.dll",
+        "lib/netstandard1.3/glTFLoader.dll"
       ]
     },
     "ImGui.NET/1.90.0.1": {
@@ -5208,34 +5234,32 @@
       "ImGui.NET >= 1.90.0.1",
       "Newtonsoft.Json >= 13.0.3",
       "OpenTK >= 4.8.2",
-      "StbImageSharp >= 2.27.13"
+      "StbImageSharp >= 2.27.13",
+      "glTF2Loader >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\matth\\.nuget\\packages\\": {},
-    "C:\\Users\\matth\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder": {}
+    "C:\\Users\\matth\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
+      "projectUniqueName": "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
       "projectName": "OpenTKFPS",
-      "projectPath": "c:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
+      "projectPath": "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
       "packagesPath": "C:\\Users\\matth\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\obj\\",
+      "outputPath": "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Users\\matth\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\matth\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Users\\matth\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config"
+        "C:\\Users\\matth\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://www.myget.org/F/lithiumtoast/api/v3/index.json": {}
       },
       "frameworks": {
         "net7.0": {
@@ -5272,6 +5296,10 @@
           "StbImageSharp": {
             "target": "Package",
             "version": "[2.27.13, )"
+          },
+          "glTF2Loader": {
+            "target": "Package",
+            "version": "[1.0.0, )"
           }
         },
         "imports": [
@@ -5290,7 +5318,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }
