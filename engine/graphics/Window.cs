@@ -59,7 +59,7 @@ namespace OpenTKFPS.engine.graphics
             GL.Viewport(0,0,args.Width, args.Height);
             imguiController.WindowResized(args.Width, args.Height);
             
-            Renderer.SetAspect((float)args.Width / (float)args.Height);
+            Renderer.SetWindowSize(ClientSize);
             
         }
 
@@ -73,11 +73,12 @@ namespace OpenTKFPS.engine.graphics
         private void WindowRender(FrameEventArgs args)
         {
             float delta = (float)args.Time;
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.ClearColor(Color4.Red);
+            GL.Clear(ClearBufferMask.ColorBufferBit);
             scene?.Render(delta);
 
             //ImGui.DockSpaceOverViewport();
-
+            
             
             imguiController.Render();
             ImGuiController.CheckGLError("End of frame");

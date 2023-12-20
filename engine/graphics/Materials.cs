@@ -9,6 +9,17 @@ using OpenTKFPS.engine.singletons;
 
 namespace OpenTKFPS.engine.graphics
 {
+    public class ScreenQuadMaterial : Material{
+        public ScreenQuadMaterial(){
+            this.shaderProgram = MaterialLoader.LoadShader("assets/shaders/ScreenQuadShader");
+        }
+
+        public override void Use()
+        {
+            base.Use();
+        }
+    }
+
     public class StandardMaterial : Material
     {
         Color4 albedo;

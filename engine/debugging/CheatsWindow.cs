@@ -10,22 +10,13 @@ namespace OpenTKFPS.engine.debugging
 {
     public class CheatsWindow : DebugWindow
     {
-        bool wireframeMode = false;
 
         public override void Update()
         {
             if(ImGui.Begin("Cheats")){
-                if(ImGui.Button("toggle wireframe: " + (wireframeMode? "On" : "Off"))){
-                    wireframeMode = !wireframeMode;
+                if(ImGui.Button("toggle wireframe: " + (Renderer.wireframeMode? "On" : "Off"))){
 
-                    if(wireframeMode){
-                        //GL.Disable(EnableCap.CullFace);
-                        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Line);
-                    }
-                    else{
-                        //GL.Enable(EnableCap.CullFace);
-                        GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
-                    }
+                    Renderer.wireframeMode = !Renderer.wireframeMode;
                 }
 
                 if(ImGui.TreeNode("FPS limit test")){

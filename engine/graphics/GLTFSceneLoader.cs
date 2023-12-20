@@ -139,7 +139,7 @@ namespace OpenTKFPS.engine.graphics
         private static void LoadGLTFAccessor(int index, int elementsPerItem, bool normalised, Accessor accessor, Gltf data , List<byte[]> buffers){
             BufferView bv = data.BufferViews[accessor.BufferView.Value];
 
-            MeshLoader.LoadByteArrayAttribute(index, buffers[bv.Buffer], bv.ByteLength, normalised, bv.ByteStride.Value, bv.ByteOffset, elementsPerItem);
+            MeshLoader.LoadByteArrayAttribute(index, buffers[bv.Buffer], bv.ByteLength, normalised, bv.ByteStride.GetValueOrDefault(0), bv.ByteOffset, elementsPerItem);
         }
     }
 }

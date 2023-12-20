@@ -15,6 +15,22 @@ namespace OpenTKFPS.engine.graphics
             GL.DeleteTextures(textureIDs.Count, textureIDs.ToArray());
         }
 
+        public static int loadEmptyTexture(int width, int height, TextureMinFilter minFilter = TextureMinFilter.Nearest, TextureMagFilter magFilter = TextureMagFilter.Nearest, TextureWrapMode wrapMode = TextureWrapMode.Repeat, PixelInternalFormat internalFormat = PixelInternalFormat.Rgba, PixelFormat format = PixelFormat.Rgba){
+            int texID = GL.GenTexture();
+
+            GL.BindTexture(TextureTarget.Texture2D, texID);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, internalFormat,width, height, 0, format, PixelType.UnsignedByte, (nint)null);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)minFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)magFilter);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)wrapMode);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapR, (int)wrapMode);
+
+            textureIDs.Add(texID);
+
+            return texID;
+        }
+
         public static int loadTexture(string path, bool flip_y = true, TextureMinFilter minFilter = TextureMinFilter.Nearest, TextureMagFilter magFilter = TextureMagFilter.Nearest, TextureWrapMode wrapMode = TextureWrapMode.Repeat){
             int texID = GL.GenTexture();
 

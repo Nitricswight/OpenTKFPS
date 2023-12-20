@@ -39,17 +39,20 @@ namespace OpenTKFPS.game.scenes
 
         public override void Begin()
         {
-            GL.ClearColor(Color4.Red);
             quad = MeshLoader.LoadMesh(vertices, uvs,null, indices);
-            sMat = new StandardMaterial(Color4.Blue, null);
+            sMat = new StandardMaterial(Color4.Blue, "assets/textures/noTex.png");
 
             root = new Actor();
-            root.AddChild(GLTFSceneLoader.LoadGLTFScene("assets/models/torus.gltf"));
+            ViewportActor viewport = new ViewportActor(200,112,true,true, Color4.CornflowerBlue);
+
+            viewport.AddChild(GLTFSceneLoader.LoadGLTFScene("assets/models/torus.gltf"));
 
 
             FlyCam cam = new FlyCam(new Vector3(0,0,-3f), Vector3.One, Vector3.Zero);
-            root.AddChild(cam);
+            viewport.AddChild(cam);
+            viewport.AddChild(new MeshActor3D(quad, sMat, Vector3.Zero, Vector3.Zero, Vector3.One));
             cam.setCurrent();
+            root.AddChild(viewport);
             root.Begin();
 
             

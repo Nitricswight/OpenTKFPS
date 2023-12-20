@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKFPS.engine.graphics;
+using OpenTKFPS.engine.structure;
 using OpenTKFPS.engine.structure.actors;
 using OpenTKFPS.engine.structure.actors.renderableActors;
 
@@ -21,6 +22,39 @@ namespace OpenTKFPS.engine.singletons
 
         public static CameraActor3D currentCamera {get; private set;}
 
+        public static bool wireframeMode = false;
+
+        private static Mesh screenQuad = MeshLoader.LoadMesh(
+            new float[]{
+                -1.0f,-1.0f,0.0f,
+                1.0f,1.0f,0.0f,
+                -1.0f,1.0f,0.0f,
+                1.0f,-1.0f,0.0f
+            },
+            new float[]{
+                0.0f,0.0f,
+                1.0f,1.0f,
+                0.0f,1.0f,
+                1.0f,0.0f
+            },
+            null,
+            new uint[]{
+                0,1,2,
+                0,3,1
+            }
+        );
+
+        private static ScreenQuadMaterial screenQuadMat = new ScreenQuadMaterial();
+
+        public static Vector2i windowSize;
+
+        public static void SetWindowSize(Vector2i size){
+            windowSize = size;
+            aspect = (float)size.X / (float)size.Y;
+        }
+
+
+
         public static void DrawMeshActor3D(MeshActor3D meshActor){
             Material material = meshActor.material;
             Mesh mesh = meshActor.mesh;
@@ -29,10 +63,12 @@ namespace OpenTKFPS.engine.singletons
             GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "transformation"), false, ref global_mat);
             GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "projection"), false, ref projection);
             GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "view"), false, ref view);
+            Debug.WriteLine(mesh.vertexAttributes);
+            GL.BindVertexArray(mesh.vaoID);
             for(int i = 0; i < mesh.vertexAttributes + 1; i++){
                 GL.EnableVertexAttribArray(i);
             }
-            GL.BindVertexArray(mesh.vaoID);
+            
             
             if(mesh.drawType == Mesh.DRAW_TYPE.ARRAY){
                 GL.DrawArrays(PrimitiveType.Triangles, 0, mesh.drawCount);
@@ -40,10 +76,6 @@ namespace OpenTKFPS.engine.singletons
             else{
                 GL.DrawElements(PrimitiveType.Triangles, mesh.drawCount, DrawElementsType.UnsignedInt, mesh.elementOffset);
             }
-        }
-
-        public static void SetAspect(float _aspect){
-            aspect = _aspect;
         }
 
         public static void UpdateMatrices(){
@@ -68,6 +100,28 @@ namespace OpenTKFPS.engine.singletons
 
             currentCamera = newCam;
             newCam.isCurrent = true;
+        }
+
+        public static void DrawScreenQuad(ViewportActor viewport){
+            GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.CullFace);
+            GL.PolygonMode(MaterialFace.FrontAndBack, PolygonMode.Fill);
+            screenQuadMat.Use();
+            GL.BindVertexArray(screenQuad.vaoID);
+            GL.BindTexture(TextureTarget.Texture2D, viewport.colourTexture);
+
+
+            
+            
+            GL.EnableVertexAttribArray(0);
+            GL.EnableVertexAttribArray(1);
+            GL.DrawElements(PrimitiveType.Triangles, screenQuad.drawCount, DrawElementsType.UnsignedInt, 0);
+            GL.Enable(EnableCap.DepthTest);
+            if(!wireframeMode){
+                GL.Enable(EnableCap.CullFace);
+            }
+
+            GL.PolygonMode(MaterialFace.FrontAndBack, wireframeMode? PolygonMode.Line : PolygonMode.Fill);
         }
     }
 }
