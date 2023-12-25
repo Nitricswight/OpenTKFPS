@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ImGuiNET;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK.Mathematics;
 using OpenTKFPS.engine.graphics;
@@ -19,18 +20,15 @@ namespace OpenTKFPS.engine.structure
 
         public Color4 clearColour;
 
-        public bool stretchToWindow;
-
         public bool keepAspect;
 
-        int width, height;
+        public int width, height;
 
         int windowWidth, windowHeight;
 
-        public ViewportActor(int resolutionX, int resolutionY, bool stretch, bool keepAspect, Color4 clear, string name = "Viewport") : base(name){
+        public ViewportActor(int resolutionX, int resolutionY, bool keepAspect, Color4 clear, string name = "Viewport") : base(name){
             this.width = resolutionX;
             this.height = resolutionY;
-            this.stretchToWindow = stretch;
             this.keepAspect = keepAspect;
             this.clearColour = clear;
             framebufferID = GL.GenFramebuffer();
@@ -38,7 +36,7 @@ namespace OpenTKFPS.engine.structure
 
             colourTexture = TextureLoader.loadEmptyTexture(resolutionX, resolutionY, TextureMinFilter.Nearest, TextureMagFilter.Nearest, TextureWrapMode.ClampToEdge);
 
-            Debug.WriteLine("colTex: " + colourTexture.ToString());
+            //Debug.WriteLine("colTex: " + colourTexture.ToString());
 
             
 
@@ -64,7 +62,7 @@ namespace OpenTKFPS.engine.structure
             GL.Viewport(0,0,width,height);
             GL.ClearColor(clearColour);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-            Debug.WriteLine("viewport render");
+            //Debug.WriteLine("viewport render");
             base.Render(deltaTime);
             GL.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
             GL.Viewport(0,0,Renderer.windowSize.X,Renderer.windowSize.Y);
@@ -76,6 +74,12 @@ namespace OpenTKFPS.engine.structure
         {
             GL.DeleteFramebuffer(framebufferID);
             base.End();
+        }
+
+        public override void ExposeToInspector()
+        {
+            base.ExposeToInspector();
+            ImGui.Checkbox("keepAspect", ref keepAspect);
         }
     }
 }

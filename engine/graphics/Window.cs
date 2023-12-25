@@ -73,7 +73,7 @@ namespace OpenTKFPS.engine.graphics
         private void WindowRender(FrameEventArgs args)
         {
             float delta = (float)args.Time;
-            GL.ClearColor(Color4.Red);
+            GL.ClearColor(Color4.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit);
             scene?.Render(delta);
 

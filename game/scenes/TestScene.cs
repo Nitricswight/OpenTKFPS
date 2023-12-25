@@ -43,7 +43,7 @@ namespace OpenTKFPS.game.scenes
             sMat = new StandardMaterial(Color4.Blue, "assets/textures/noTex.png");
 
             root = new Actor();
-            ViewportActor viewport = new ViewportActor(200,112,true,true, Color4.CornflowerBlue);
+            ViewportActor viewport = new ViewportActor(200,112,true, Color4.CornflowerBlue);
 
             viewport.AddChild(GLTFSceneLoader.LoadGLTFScene("assets/models/torus.gltf"));
 
@@ -60,7 +60,7 @@ namespace OpenTKFPS.game.scenes
             DebugWindowManager.AddDebugWindow(new TreeDebugger(this));
             DebugWindowManager.AddDebugWindow(new ActorInspector());
             DebugWindowManager.AddDebugWindow(new CheatsWindow());
-            DebugWindowManager.AddDebugWindow(new ProfilerWindow());
+            DebugWindowManager.AddDebugWindow(new ProfilerWindow(true));
         }
     }
 }

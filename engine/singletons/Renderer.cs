@@ -63,7 +63,7 @@ namespace OpenTKFPS.engine.singletons
             GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "transformation"), false, ref global_mat);
             GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "projection"), false, ref projection);
             GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "view"), false, ref view);
-            Debug.WriteLine(mesh.vertexAttributes);
+            //Debug.WriteLine(mesh.vertexAttributes);
             GL.BindVertexArray(mesh.vaoID);
             for(int i = 0; i < mesh.vertexAttributes + 1; i++){
                 GL.EnableVertexAttribArray(i);
@@ -110,7 +110,27 @@ namespace OpenTKFPS.engine.singletons
             GL.BindVertexArray(screenQuad.vaoID);
             GL.BindTexture(TextureTarget.Texture2D, viewport.colourTexture);
 
+            Vector2 finalScale = Vector2.One;
+            if(viewport.keepAspect){
+                float scaleX = (float)windowSize.X / (float)viewport.width;
+                float scaleY = (float)windowSize.Y / (float)viewport.height;
 
+                
+
+                if(scaleX > scaleY){
+                    finalScale.X = ((float)viewport.width * scaleY) / (float)windowSize.X;
+                    finalScale.Y = ((float)viewport.height * scaleY) / (float)windowSize.Y;
+                }
+                else{
+                    finalScale.Y = ((float)viewport.height * scaleX) / (float)windowSize.Y;
+                    finalScale.X = ((float)viewport.width * scaleX) / (float)windowSize.X;
+                }
+
+            }
+
+            Debug.WriteLine(finalScale.ToString());
+
+            GL.Uniform2(GL.GetUniformLocation(screenQuadMat.shaderProgram, "scale"), finalScale);
             
             
             GL.EnableVertexAttribArray(0);
