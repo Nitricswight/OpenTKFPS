@@ -40,12 +40,17 @@ namespace OpenTKFPS.game.scenes
         public override void Begin()
         {
             quad = MeshLoader.LoadMesh(vertices, uvs,null, indices);
-            sMat = new StandardMaterial(Color4.Blue, "assets/textures/noTex.png");
+            sMat = new StandardMaterial(Color4.White, "assets/textures/Image_0.png");
 
             root = new Actor();
             ViewportActor viewport = new ViewportActor(200,112,true, Color4.CornflowerBlue);
 
-            viewport.AddChild(GLTFSceneLoader.LoadGLTFScene("assets/models/torus.gltf"));
+            Actor3D trees = SceneLoader.AssimpLoadScene("assets/models/bunny.fbx");
+            trees.local_scale = Vector3.One * 1f;
+
+            viewport.AddChild(trees);
+
+
 
 
             FlyCam cam = new FlyCam(new Vector3(0,0,-3f), Vector3.One, Vector3.Zero);

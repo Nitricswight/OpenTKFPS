@@ -13,6 +13,7 @@ namespace OpenTKFPS.game.customActors
     public class FlyCam : CameraActor3D
     {
         const float SPEED = 1f;
+        const float FAST_SPEED = 10f;
         const float MOUSE_SENSITIVITY = 0.001f;
 
         float PITCH_CLAMP = MathHelper.DegreesToRadians(89);
@@ -29,7 +30,7 @@ namespace OpenTKFPS.game.customActors
             m.Z = (InputManager.IsKeyPressed(Keys.E)? 1f:0f) - (InputManager.IsKeyPressed(Keys.Q)? 1f:0f);
 
             if(m.Length > 0){
-                m = m.Normalized() * SPEED * deltaTime;
+                m = m.Normalized() * (InputManager.IsKeyPressed(Keys.LeftShift)? FAST_SPEED : SPEED) * deltaTime;
             }
             
 

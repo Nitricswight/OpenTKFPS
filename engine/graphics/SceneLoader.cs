@@ -12,12 +12,15 @@ using OpenTK.Mathematics;
 using OpenTKFPS.engine.structure.actors.renderableActors;
 using OpenTK.Graphics.OpenGL4;
 using System.Collections.Specialized;
+using Assimp.Configs;
 
 namespace OpenTKFPS.engine.graphics
 {
 
-    public static class GLTFSceneLoader
+    public static class SceneLoader
     {
+        #region myImplementation
+
         public static Actor3D LoadGLTFScene(string filePath){
             Gltf file = Interface.LoadModel(filePath);
 
@@ -141,5 +144,113 @@ namespace OpenTKFPS.engine.graphics
 
             MeshLoader.LoadByteArrayAttribute(index, buffers[bv.Buffer], bv.ByteLength, normalised, bv.ByteStride.GetValueOrDefault(0), bv.ByteOffset, elementsPerItem);
         }
+
+        #endregion
+
+
+        #region assimpImplementation
+
+        public static Actor3D AssimpLoadScene(string filePath){
+            Assimp.AssimpContext loader = new Assimp.AssimpContext();
+
+            Assimp.Scene scene = loader.ImportFile(filePath);
+
+            List<Mesh> meshes = new List<Mesh>();
+
+            Debug.WriteLine("Loading scene: " + filePath);
+            Debug.WriteLine("Meshes: " + scene.MeshCount);
+            Debug.WriteLine("Materials: " + scene.Materials.Count);
+
+            foreach(Assimp.Mesh m in scene.Meshes){
+                float[] vertices = new float[m.Vertices.Count * 3];
+                float[] uvs = new float[m.TextureCoordinateChannels[0].Count * 2];
+                float[] normals = new float[m.Normals.Count * 3];
+
+                uint[] indices = m.GetUnsignedIndices();
+
+                for(int i = 0; i < indices.Length; i++){
+                    vertices[i * 3 + 0] = m.Vertices[i].X;
+                    vertices[i * 3 + 1] = m.Vertices[i].Y;
+                    vertices[i * 3 + 2] = m.Vertices[i].Z;
+                    
+                    if(m.HasNormals){
+                        normals[i * 3 + 0] = m.Normals[i].X;
+                        normals[i * 3 + 1] = m.Normals[i].Y;
+                        normals[i * 3 + 2] = m.Normals[i].Z;
+                    }
+                    
+                    if(m.HasTextureCoords(0)){
+                        uvs[i * 2 + 0] = m.TextureCoordinateChannels[0][i].X;
+                        uvs[i * 2 + 1] = m.TextureCoordinateChannels[0][i].Y;
+                    }
+                    
+                }
+
+                meshes.Add(MeshLoader.LoadMesh(vertices, m.HasTextureCoords(0)? uvs : null, m.HasNormals? normals : null, indices));
+            }
+
+            if(meshes.Count == 0){
+                Debug.WriteLine("ASSIMP LOAD FAILED::NO MESHES FOUND");
+                return null;
+            }
+
+            return AssimpLoadNode(scene.RootNode, meshes);
+            
+
+            
+        }
+
+        private static Actor3D AssimpLoadNode(Assimp.Node node, List<Mesh> meshes){
+
+            Debug.WriteLine("Beginning load of node: " + node.Name);
+
+            Debug.WriteLine("Surfaces: " + node.MeshCount);
+            Actor3D result;
+
+            Assimp.Vector3D p , s;
+            Assimp.Quaternion r;
+
+            node.Transform.Decompose(out s, out r, out p);
+
+            Vector3 pos = new Vector3(p.X, p.Y, p.Z);
+            Vector3 sca = new Vector3(s.X, s.Y, s.Z);
+            Quaternion quat = new Quaternion(r.X, r.Y, r.Z, r.W);
+            Vector3 rot = quat.ToEulerAngles();
+
+            
+            
+
+            if(node.MeshCount == 1){
+                result = new MeshActor3D(meshes[node.MeshIndices[0]], StandardMaterial.Default(), pos, rot, sca, node.Name);
+            }
+            else{
+                result = new Actor3D(pos, sca, rot, node.Name);
+
+                //add all separate meshes as children
+
+                for(int j = 0; j < node.MeshCount; j++){
+                    result.AddChild(new MeshActor3D(meshes[node.MeshIndices[j]], StandardMaterial.Default(), Vector3.Zero, Vector3.Zero, Vector3.One, "Surface " + j.ToString()));
+                }
+
+
+            }
+
+            //add all children recursively
+            Debug.WriteLine("children: " + node.ChildCount);
+
+            foreach(Assimp.Node child in node.Children){
+                if(child.ChildCount != 0 || child.MeshCount != 0){
+                    result.AddChild(AssimpLoadNode(child, meshes));
+                }
+                else{
+                    Debug.WriteLine("skipping...");
+                }
+                
+            }
+
+            return result;
+        }
+
+        #endregion
     }
 }

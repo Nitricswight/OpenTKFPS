@@ -128,7 +128,7 @@ namespace OpenTKFPS.engine.singletons
 
             }
 
-            Debug.WriteLine(finalScale.ToString());
+            //Debug.WriteLine(finalScale.ToString());
 
             GL.Uniform2(GL.GetUniformLocation(screenQuadMat.shaderProgram, "scale"), finalScale);
             
