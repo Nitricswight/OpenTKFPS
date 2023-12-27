@@ -10,6 +10,7 @@ using OpenTK.Mathematics;
 namespace OpenTKFPS.engine.graphics
 {
     public class Material{
+        public bool lit;
         public int shaderProgram;
 
         public virtual void Use(){
@@ -19,6 +20,10 @@ namespace OpenTKFPS.engine.graphics
         public virtual void ExposeToInspector(){
         }
 
+        public virtual void CacheUniformLocations(){
+
+        }
+
         public void OpenTKColorEdit4(string label, ref Color4 col){
             System.Numerics.Vector4 editAlbedo = new System.Numerics.Vector4(col.R, col.G, col.B, col.A);
 
@@ -26,35 +31,50 @@ namespace OpenTKFPS.engine.graphics
 
             col = new Color4(editAlbedo.X, editAlbedo.Y, editAlbedo.Z, editAlbedo.W);
         }
+
+        public Material(bool lit){
+            this.lit = lit;
+        }
+
+        public void SetUniformVec3(string name, Vector3 value){
+            GL.Uniform3(GL.GetUniformLocation(shaderProgram, name), ref value);
+        }
+
+        public void SetUniformVec4(string name, Vector4 value){
+            GL.Uniform4(GL.GetUniformLocation(shaderProgram, name), ref value);
+        }
+
+        public void SetUniformColour(string name, Color4 value){
+            GL.Uniform4(GL.GetUniformLocation(shaderProgram, name), value);
+        }
+
+        public void SetUniformScalar(string name, int value){
+            GL.Uniform1(GL.GetUniformLocation(shaderProgram, name), value);
+        }
+
+        public void SetUniformScalar(string name, float value){
+            GL.Uniform1(GL.GetUniformLocation(shaderProgram, name), value);
+        }
+
+        public void SetUniformMatrix(string name, Matrix4 value, bool transpose){
+            GL.UniformMatrix4(GL.GetUniformLocation(shaderProgram, name), transpose, ref value);
+        }
     }
 
     public static class MaterialLoader
     {
-        private static Dictionary<string, int> programCache = new Dictionary<string, int>();
-
-        private static Dictionary<string, int> uniformLocationCache = new Dictionary<string, int>();
-
-        public static int GetUniformLocation(string shaderName, string uniformName){
-            if(uniformLocationCache.ContainsKey(shaderName + "_" + uniformName)){
-                return uniformLocationCache[shaderName + "_" + uniformName];
-            }
-            else{
-                int location = GL.GetUniformLocation(programCache[shaderName], uniformName);
-                uniformLocationCache.Add(shaderName + "_" + uniformName, location);
-                return location;
-            }
-        }
+        private static Dictionary<string, int> cachedShaders = new Dictionary<string, int>();
 
         public static void CleanUp(){
-            int[] programs = programCache.Values.ToArray();
-            for(int i = 0; i < programs.Length; i++){
-                GL.DeleteProgram(programs[i]);
+            int[] p = cachedShaders.Values.ToArray();
+            foreach(int i in p){
+                GL.DeleteProgram(i);
             }
         }
 
         public static int LoadShader(string path){
-            if(programCache.ContainsKey(path)){
-                return programCache[path];
+            if(cachedShaders.ContainsKey(path)){
+                return cachedShaders[path];
             }
 
             string vertexShaderSource;
@@ -99,7 +119,7 @@ namespace OpenTKFPS.engine.graphics
                 Debug.WriteLine("SHADER_PROGRAM::LINK_FAIL::" + infoLog);
             }
 
-            programCache.Add(path , program);
+            cachedShaders.Add(path , program);
 
             return program;
         }

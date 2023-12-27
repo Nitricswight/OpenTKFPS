@@ -15,10 +15,13 @@ namespace OpenTKFPS.engine.singletons
 {
     public static class Renderer
     {
+        const int MAX_LIGHTS = 64;
         private static Matrix4 projection;
         private static Matrix4 view;
 
         private static float aspect;
+
+        private static List<Light> lights = new List<Light>();
 
         public static CameraActor3D currentCamera {get; private set;}
 
@@ -53,16 +56,25 @@ namespace OpenTKFPS.engine.singletons
             aspect = (float)size.X / (float)size.Y;
         }
 
+        private static void LoadLightingData(Material mat){
+            for(int i = 0; i < lights.Count; i++){
+                lights[i].LoadData(mat, i);
+            }
+        }
+
 
 
         public static void DrawMeshActor3D(MeshActor3D meshActor){
             Material material = meshActor.material;
             Mesh mesh = meshActor.mesh;
             material.Use();
+            if(material.lit){
+                LoadLightingData(material);
+            }
             Matrix4 global_mat = meshActor.global_matrix;
-            GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "transformation"), false, ref global_mat);
-            GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "projection"), false, ref projection);
-            GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "view"), false, ref view);
+            material.SetUniformMatrix("transformation", global_mat, false);
+            material.SetUniformMatrix("projection", projection, false);
+            material.SetUniformMatrix("view", view, false);
             //Debug.WriteLine(mesh.vertexAttributes);
             GL.BindVertexArray(mesh.vaoID);
             for(int i = 0; i < mesh.vertexAttributes + 1; i++){
@@ -143,5 +155,17 @@ namespace OpenTKFPS.engine.singletons
 
             GL.PolygonMode(MaterialFace.FrontAndBack, wireframeMode? PolygonMode.Line : PolygonMode.Fill);
         }
+
+        public static void AddLight(Light light){
+            if(lights.Count < MAX_LIGHTS){
+                lights.Add(light);
+            }
+        }
+
+        public static void RemoveLight(Light light){
+            lights.Remove(light);
+        }
+
+
     }
 }

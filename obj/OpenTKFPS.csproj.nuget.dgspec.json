@@ -1,30 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj": {}
+    "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj": {}
   },
   "projects": {
-    "C:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj": {
+    "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
+        "projectUniqueName": "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
         "projectName": "OpenTKFPS",
-        "projectPath": "C:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
+        "projectPath": "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\OpenTKFPS.csproj",
         "packagesPath": "C:\\Users\\matth\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\matth\\OneDrive\\Documents\\vscode\\OpenTKFPS\\obj\\",
+        "outputPath": "C:\\Users\\matth\\Documents\\vscode\\OpenTKFPS\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Users\\matth\\AppData\\Roaming\\Godot\\mono\\GodotNuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\matth\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Users\\matth\\AppData\\Roaming\\NuGet\\config\\Godot.Offline.Config"
+          "C:\\Users\\matth\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {},
+          "https://www.myget.org/F/lithiumtoast/api/v3/index.json": {}
         },
         "frameworks": {
           "net7.0": {
@@ -83,7 +81,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

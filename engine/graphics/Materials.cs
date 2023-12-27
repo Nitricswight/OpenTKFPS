@@ -10,7 +10,7 @@ using OpenTKFPS.engine.singletons;
 namespace OpenTKFPS.engine.graphics
 {
     public class ScreenQuadMaterial : Material{
-        public ScreenQuadMaterial(){
+        public ScreenQuadMaterial(): base(false){
             this.shaderProgram = MaterialLoader.LoadShader("assets/shaders/ScreenQuadShader");
         }
 
@@ -26,7 +26,7 @@ namespace OpenTKFPS.engine.graphics
 
         int albedoTexture = -1;
 
-        public StandardMaterial(Color4 albedo, string? albedoTexturePath = null){
+        public StandardMaterial(Color4 albedo, string? albedoTexturePath = null) : base(true){
             this.albedo = albedo;
             if(albedoTexturePath != null){
                 albedoTexture = TextureLoader.loadTexture(albedoTexturePath);
@@ -34,24 +34,20 @@ namespace OpenTKFPS.engine.graphics
             this.shaderProgram = MaterialLoader.LoadShader("assets/shaders/StandardShader");
         }
 
-        public void SetTransformation(Matrix4 t){
-            GL.UniformMatrix4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "transformation"), false, ref t);
-        }
-
         public override void Use()
         {
             base.Use();
-            GL.Uniform4(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "albedo"), albedo);
+            SetUniformColour("albedo", albedo);
 
             if(albedoTexture != -1){
-                GL.Uniform1(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "albedoTextureEnabled"), 1);
+                SetUniformScalar("albedoTextureEnabled", 1);
                 GL.BindTexture(TextureTarget.Texture2D, albedoTexture);
             }
             else{
-                GL.Uniform1(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "albedoTextureEnabled"), 0);
+                SetUniformScalar("albedoTextureEnabled", 0);
             }
 
-            GL.Uniform1(MaterialLoader.GetUniformLocation("assets/shaders/StandardShader", "time"), TimeManager.totalRunningTime);
+            SetUniformScalar("time", TimeManager.totalRunningTime);
         }
 
         public override void ExposeToInspector()
